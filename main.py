@@ -1,5 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,Header
 from typing import Optional
+from pydantic import BaseModel
 app = FastAPI()
 # basic get request returning a text
 # http://127.0.0.1:8000/
@@ -43,3 +44,32 @@ async def optionalquery(name:Optional[str]="Default-Name",age:Optional[int]=0)->
 @app.get("/noquery")
 async def noquery(name:str ="Default-Name",age:int=0)-> dict:
   return {"message":f"Your name is {name} and age is {age}"}
+
+class ProductModel(BaseModel): # A model to create products 
+  product_name : str
+  price : float
+# A post request to create 
+@app.post('/create_product')
+async def cp(product_data:ProductModel):
+  return{
+    "name":product_data.product_name,
+    "price":product_data.price
+  }
+@app.get('/get-headers',status_code=200) #can specify the status code 200,500..etc or random code
+#Note: if it returns a random status code like 123 which is not a recognized status code then you will get , Parse Error:The server returned a malformed response 
+async def get_headers(
+  accept:str = Header(None),
+  content_type:str = Header(None),
+  user_agent:str = Header(None),
+  host:str = Header(None)
+):
+   request_headers = {}
+   request_headers["Accept"] = accept #tells server what content type the client can understand i.e application/json, text/html
+   request_headers["Content-Type"] = content_type # format of request body i.e application/json 
+   request_headers["User-Agent"] =user_agent # client browser/application in my case it is PostmanRuntime/7.51.1
+   request_headers["Host"]=host # domain name of server
+   return request_headers
+'''Headers are metadata sent along with HTTP requests and responses.
+  They contain important information about the request/response, 
+ the client, and how the data should be handled.'''
+# here header is extracted from http request and returned as json response
