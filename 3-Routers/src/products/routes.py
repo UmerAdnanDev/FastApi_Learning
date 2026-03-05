@@ -7,7 +7,8 @@ product_router = APIRouter()
 
 @product_router.get('/intro')
 async def intro():
-  return {"message":"A FastApi CRUD for products\nwith modular project structure\nusing routers"}
+  return {"message":"A FastApi CRUD for products "
+  "with modular project structure using routers"}
 @product_router.get('/',response_model=List[Product]) # pydantic expects dict but we were fetching a list of dict so we imported List module
 async def get_all_products():
   return products
