@@ -20,6 +20,6 @@ app = FastAPI(version=version,
 
 app.include_router(product_router,prefix=f"/api/{version}/products",tags=['products'])
 #to run
-# cd 3-Routers
-#uvicorn src.main:app --reload --port 8002
+# cd 4-SQLModel
+#uvicorn src.main:app --reload --port 8003
 
