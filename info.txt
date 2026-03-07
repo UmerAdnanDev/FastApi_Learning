@@ -1,0 +1,7 @@
+Information
+ 
+To hide api keys ,database password and secret keys we use .evn file
+which Git hub ignores 
+
+install asyncpg which act as a database api
+install sqlmodel which is an orm 
